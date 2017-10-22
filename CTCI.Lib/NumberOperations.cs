@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Collections;
 
 namespace CTCI.Lib
 {
@@ -22,6 +21,21 @@ namespace CTCI.Lib
 			}
 
 			return lastPowOfTwo;
+		}
+
+		public static int GetHammingDistance(int x, int y)
+		{
+			BitArray xInBit = new BitArray(new int[] { x });
+			BitArray yInBit = new BitArray(new int[] { y });
+
+			int hammingDistance = 0;
+			for(int i = 0; i < xInBit.Length; i++)
+			{
+				if (xInBit[i] ^ yInBit[i])
+					hammingDistance++;
+			}
+
+			return hammingDistance;
 		}
 	}
 }

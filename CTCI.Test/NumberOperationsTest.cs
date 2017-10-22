@@ -19,5 +19,12 @@ namespace CTCI.Test
 			result.ShouldBe(expectedResult);
 		}
 
+		[Theory]
+		[InlineData(1, 4, 2)]
+		public void GetHammingDistance(int x, int y, int expectedHammingDistance)
+		{
+			int hammingDistance = NumberOperations.GetHammingDistance(x, y);
+			hammingDistance.ShouldBe(expectedHammingDistance);
+		}
 	}
 }

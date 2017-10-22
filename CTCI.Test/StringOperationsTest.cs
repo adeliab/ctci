@@ -1,18 +1,18 @@
-using CTCI.Lib;
+﻿using CTCI.Lib;
+using Shouldly;
 using System;
 using Xunit;
-using Shouldly;
 
 namespace CTCI.Test
 {
-    public class ArraysAndStringOperationsTest
+	public class StringOperationsTest
     {
 		[Theory]
 		[InlineData(null)]
 		[InlineData("")]
 		public void IsUnique_ThrowArgumentNullException(string text)
 		{
-			Exception ex = Should.Throw<ArgumentNullException>(() => ArraysAndStringOperations.IsUnique(text));
+			Exception ex = Should.Throw<ArgumentNullException>(() => StringOperations.IsUnique(text));
 			ex.Message.ShouldBe("Text cannot be null or empty\r\nParameter name: text");
 		}
 
@@ -23,7 +23,7 @@ namespace CTCI.Test
 		[InlineData("!@#$%")]
 		public void IsUnique_True(string text)
 		{
-			bool isUnique = ArraysAndStringOperations.IsUnique(text);
+			bool isUnique = StringOperations.IsUnique(text);
 			isUnique.ShouldBeTrue();
 		}
 
@@ -33,19 +33,8 @@ namespace CTCI.Test
 		[InlineData("!abcd!")]
 		public void IsUnique_False(string text)
 		{
-			bool isUnique = ArraysAndStringOperations.IsUnique(text);
+			bool isUnique = StringOperations.IsUnique(text);
 			isUnique.ShouldBeFalse();
-		}
-
-		[Theory]
-		[InlineData(new int[] { 16, 17, 4, 3, 5, 2 }, new int[] { 17, 5, 5, 5, 2, -1 })]
-		[InlineData(new int[] { 16, 17, 4, 3, -5, -3 }, new int[] { 17, 4, 3, -1, -1, -1 })]
-		public void SetToRightLargestNumber(int[] numbers, int[] expectedResult)
-		{
-			int[] result = ArraysAndStringOperations.SetToRightLargestNumber(numbers);
-
-			for (int i = 0; i < numbers.Length; i++)
-				expectedResult[i].ShouldBe(result[i]);
 		}
 
 		[Theory]
@@ -56,7 +45,7 @@ namespace CTCI.Test
 		[InlineData("John Smith Dowes", "John")]
 		public void GetFirstName(string name, string expectedFirstName)
 		{
-			string firstName = ArraysAndStringOperations.GetFirstName(name);
+			string firstName = StringOperations.GetFirstName(name);
 
 			firstName.ShouldBe(expectedFirstName);
 		}
@@ -69,7 +58,7 @@ namespace CTCI.Test
 		[InlineData("John Smith Dowes", "Smith Dowes")]
 		public void GetLastName(string name, string expectedLastName)
 		{
-			string lastName = ArraysAndStringOperations.GetLastName(name);
+			string lastName = StringOperations.GetLastName(name);
 
 			lastName.ShouldBe(expectedLastName);
 		}
@@ -81,10 +70,20 @@ namespace CTCI.Test
 		[InlineData("Theresiastraat Test 2 151/AB", "Office Space", "Netherlands", "151", "AB")]
 		public void GetHouseNumberAndSuffix(string address1, string address2, string address3, string expectedHouseNumber, string expectedSuffix)
 		{
-			string[] houseNumberAndSuffix = ArraysAndStringOperations.GetHouseNumberAndSuffix(address1, address2, address3);
+			string[] houseNumberAndSuffix = StringOperations.GetHouseNumberAndSuffix(address1, address2, address3);
 			houseNumberAndSuffix[0].ShouldBe(string.Join(' ', address1, address2, address3).Trim());
 			houseNumberAndSuffix[1].ShouldBe(expectedHouseNumber);
 			houseNumberAndSuffix[2].ShouldBe(expectedSuffix);
+		}
+
+		[Theory]
+		[InlineData("UD", true)]
+		[InlineData("LL", false)]
+		[InlineData("URRDLL", true)]
+		public void JudgeCircle(string moves, bool expectedIsCircle)
+		{
+			bool isCircle = StringOperations.JudgeCircle(moves);
+			isCircle.ShouldBe(expectedIsCircle);
 		}
 	}
 }

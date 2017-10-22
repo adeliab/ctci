@@ -4,45 +4,8 @@ using System.Text.RegularExpressions;
 
 namespace CTCI.Lib
 {
-	public class ArraysAndStringOperations
+	public class StringOperations
     {
-		public static bool IsUnique(string text)
-		{
-			if (string.IsNullOrEmpty(text))
-				throw new ArgumentNullException(nameof(text), "Text cannot be null or empty");
-
-			HashSet<char> foundCharacters = new HashSet<char>();
-
-			for (int i = 0; i < text.Length; i++)
-			{
-				if (foundCharacters.Contains(text[i]))
-					return false;
-
-				foundCharacters.Add(text[i]);
-			}
-
-			return true;
-		}
-
-		public static int[] SetToRightLargestNumber(int[] numbers)
-		{
-			int n = numbers.Length;
-
-			if (n < 0)
-				throw new ArgumentException(nameof(numbers));
-			
-			int rightLargestNumber = -1;
-
-			for (int i = n - 1; i >= 0; i--)
-			{
-				int currentNumber = numbers[i];
-				numbers[i] = rightLargestNumber;
-				rightLargestNumber = Math.Max(rightLargestNumber, currentNumber);
-			}
-
-			return numbers;
-		}
-
 		public static string GetFirstName(string fullName)
 		{
 			if (string.IsNullOrEmpty(fullName))
@@ -74,7 +37,7 @@ namespace CTCI.Lib
 			string regex = @"(?<number>\d+)[-/ ]{0,1}(?<suffix>[a-zA-Z-/]+){0,1}";
 
 			MatchCollection matches = Regex.Matches(completeAddress, regex);
-			if(matches.Count > 0)
+			if (matches.Count > 0)
 			{
 				Match lastMatch = matches[matches.Count - 1];
 				string houseNumber = lastMatch.Groups["number"].Value;
@@ -86,6 +49,57 @@ namespace CTCI.Lib
 			}
 
 			return streetHouseNumberAndSuffix;
+		}
+
+		public static bool IsUnique(string text)
+		{
+			if (string.IsNullOrEmpty(text))
+				throw new ArgumentNullException(nameof(text), "Text cannot be null or empty");
+
+			HashSet<char> foundCharacters = new HashSet<char>();
+
+			for (int i = 0; i < text.Length; i++)
+			{
+				if (foundCharacters.Contains(text[i]))
+					return false;
+
+				foundCharacters.Add(text[i]);
+			}
+
+			return true;
+		}
+
+		public static bool JudgeCircle(string moves)
+		{
+			if (string.IsNullOrEmpty(moves))
+				return false;
+
+			int x = 0, y = 0;
+
+			for(int i = 0; i < moves.Length; i++)
+			{
+				char move = moves[i];
+
+				switch (move)
+				{
+					case 'U':
+						y--;
+						break;
+					case 'R':
+						x++;
+						break;
+					case 'D':
+						y++;
+						break;
+					case 'L':
+						x--;
+						break;
+					default:
+						break;
+				}
+			}
+
+			return (x == 0 && y == 0);
 		}
 	}
 }
